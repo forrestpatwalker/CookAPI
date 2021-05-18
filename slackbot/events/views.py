@@ -41,7 +41,7 @@ class SlackOffers(APIView):
                     response_dict = {"challenge": json_body['challenge']}
                     return JsonResponse(response_dict, safe=False)
 
-        return HttpResponse(status=500)
+        return HttpResponse(status=403)
 
 
 class SlackCommands(APIView):
