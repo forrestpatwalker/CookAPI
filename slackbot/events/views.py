@@ -51,11 +51,22 @@ class SlackCommands(APIView):
         data = json.loads(request.POST['payload'])
         load_dotenv()
         client = WebClient(token=os.environ.get('SLACK_BOT_USER_ACCESS_TOKEN'))
+
+        # This will only run when the modal is submitted by the slack user.
         if 'view' in data:
+            user_id = data['user']['id']
+
+            # With the user id we request information from slack about the user and store it.
+            user_information = client.users_info(user=user_id)
+            user_email = user_information['user']['profile']['email']
+
+            # Respond with a message in the testing channel
             client.chat_postMessage(channel='testing', text="Thanks for creating an offer!")
             return HttpResponse(status=200)
 
+        # This will run when a slack user uses the Create offer shortcut.
         else:
+            # This is the modal that the user on slack will receive and fill out.
             view = {
                 "title": {
                     "type": "plain_text",
@@ -124,5 +135,6 @@ class SlackCommands(APIView):
                 ]
             }
 
+            # This sends the modal and trigger_id to slack to open the modal for the slack user.
             client.views_open(trigger_id=data['trigger_id'], view=view)
             return HttpResponse(status=200)
