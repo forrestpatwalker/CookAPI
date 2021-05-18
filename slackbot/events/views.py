@@ -15,7 +15,6 @@ class SlackOffers(APIView):
 
     def post(self, request):
         load_dotenv()
-        print(request.body)
         request_body = request.body.decode('UTF-8')
         json_body = json.loads(request_body)
         timestamp = int(request.headers['X-Slack-Request-Timestamp'])
@@ -53,8 +52,7 @@ class SlackCommands(APIView):
         load_dotenv()
         client = WebClient(token=os.environ.get('SLACK_BOT_USER_ACCESS_TOKEN'))
         if 'view' in data:
-            print(data)
-            client.chat_postMessage(channel='testing', text="testing")
+            client.chat_postMessage(channel='testing', text="Thanks for creating an offer!")
             return HttpResponse(status=200)
 
         else:
