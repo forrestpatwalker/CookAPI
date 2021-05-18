@@ -54,11 +54,17 @@ class SlackCommands(APIView):
 
         # This will only run when the modal is submitted by the slack user.
         if 'view' in data:
+            print(json.dumps(data, indent=4, sort_keys=True))
             user_id = data['user']['id']
 
             # With the user id we request information from slack about the user and store it.
             user_information = client.users_info(user=user_id)
             user_email = user_information['user']['profile']['email']
+
+            # Store submitted values
+            input_title = data['view']['state']['values']['title_block']['title_action']['value']
+            input_description = data['view']['state']['values']['description_block']['description_action']['value']
+            input_public = data['view']['state']['values']['public_choice_block']['public_choice_action']['selected_option']['value']
 
             # Respond with a message in the testing channel
             client.chat_postMessage(channel='testing', text="Thanks for creating an offer!")
@@ -70,66 +76,69 @@ class SlackCommands(APIView):
             view = {
                 "title": {
                     "type": "plain_text",
-                    "text": "What's Cookin'",
-                    "emoji": True
+                    "text": "Create an Offer"
                 },
                 "submit": {
                     "type": "plain_text",
-                    "text": "Submit",
-                    "emoji": True
+                    "text": "Submit"
                 },
                 "type": "modal",
                 "close": {
                     "type": "plain_text",
-                    "text": "Cancel",
-                    "emoji": True
+                    "text": "Cancel"
                 },
                 "blocks": [
                     {
                         "type": "input",
+                        "block_id": "title_block",
                         "element": {
                             "type": "plain_text_input",
-                            "action_id": "plain_text_input-action"
+                            "action_id": "title_action"
                         },
                         "label": {
                             "type": "plain_text",
-                            "text": "Title",
-                            "emoji": True
+                            "text": "Title"
                         }
                     },
                     {
                         "type": "input",
+                        "block_id": "description_block",
                         "element": {
                             "type": "plain_text_input",
                             "multiline": True,
-                            "action_id": "plain_text_input-action"
+                            "action_id": "description_action"
                         },
                         "label": {
                             "type": "plain_text",
-                            "text": "Description",
-                            "emoji": True
+                            "text": "Description"
                         }
                     },
                     {
                         "type": "input",
+                        "block_id": "public_choice_block",
                         "element": {
-                            "type": "checkboxes",
+                            "type": "radio_buttons",
                             "options": [
                                 {
                                     "text": {
                                         "type": "plain_text",
-                                        "text": "Please display this offer publicly",
-                                        "emoji": True
+                                        "text": "Make this offer public"
                                     },
-                                    "value": "value-0"
+                                    "value": "public"
+                                },
+                                {
+                                    "text": {
+                                        "type": "plain_text",
+                                        "text": "Make this offer private"
+                                    },
+                                    "value": "private"
                                 }
                             ],
-                            "action_id": "checkboxes-action"
+                            "action_id": "public_choice_action"
                         },
                         "label": {
                             "type": "plain_text",
-                            "text": "Public",
-                            "emoji": True
+                            "text": "Public"
                         }
                     }
                 ]
