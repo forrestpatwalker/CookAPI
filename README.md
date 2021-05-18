@@ -7,6 +7,7 @@ You will need python installed on your machine (you can get that from [here](htt
   * ``` pip install djangorestframework ```
   * ``` pip install python-dotenv ```
   * ``` pip install slack-sdk ```
+  * ``` pip install aiohttp ```
 4. In a terminal cd into the directory where your ngrok was installed and run ``` ./ngrok http 8000 ``` (Note this is for linux) check ngrok for how to do it on windows/mac
 5. In the [settings.py](https://github.com/forrestpatwalker/slack_bot/blob/master/slackbot/slackbot/settings.py) file you will need to change the ALLOWED_HOSTS on line 28 to your own ngrok proxy without the https://. Without this you may get an error when you try to run things.
 6. Open up your project in your IDE and in the terminal run ``` python manage.py runserver ``` this will start up the django localserver at port 8000 (it might be a different port for you so adjust accordingly)
