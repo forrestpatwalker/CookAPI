@@ -1,4 +1,7 @@
-# Set up instructions
+# Description
+This app is a very basic implementation of a slack app within Django. The app primarily is used to lay the ground work for setting up slack integration with a Django project. Here you will find how to subscribe to events in slack, pass the slack challenge for event subscription using slacks recommended security procedures, and using interactivity with shortcuts in slack using slacks modals.
+
+## Set up instructions
 You will need python installed on your machine (you can get that from [here](https://www.python.org/)) and an IDE of your choice I use [PyCharm](https://www.jetbrains.com/pycharm/)
 1. Download ngrok from [here](https://ngrok.com/download)
 1. Set up your virtual enviornment [here](https://realpython.com/python-virtual-environments-a-primer/) is a great guide on this from the guys at Real Python
